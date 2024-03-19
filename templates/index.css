@@ -34,7 +34,8 @@ body {
 }
 
 #article-image {
-    width: 100%;/ overflow: hidden;
+    width: 100%;
+    overflow: hidden;
     vertical-align: middle;
     filter: blur(20px) brightness(.9);
     transform: scale(5);
@@ -85,7 +86,7 @@ text-container {
     position: absolute;
     z-index: 1;
     padding: 1em;
-    top: -10em;
+    /* top: -10em; */
     text-align: center;
     left: 0;
 }

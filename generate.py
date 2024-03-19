@@ -11,6 +11,17 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
+LOREM = """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et nibh sollicitudin,
+iaculis nunc ac, volutpat nulla. Duis vel velit vel enim ornare varius."""
+LOREM_BIG = """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et nibh sollicitudin,
+iaculis nunc ac, volutpat nulla. Duis vel velit vel enim ornare varius. Ut dictum turpis at leo
+interdum dapibus vitae sodales tortor. Quisque a eros fringilla, pulvinar justo sed, rutrum
+mauris. Proin ut ex justo. Morbi gravida risus in lacus cursus convallis. Praesent finibus nibh
+sit amet metus lobortis vehicula. Vivamus eu lobortis felis. Morbi rhoncus mauris nec mi gravida
+ultricies. Sed consequat at nisl ac dapibus. Maecenas a tortor eget eros ullamcorper viverra.
+Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Fusce
+pretium suscipit augue in ultrices. Suspendisse imperdiet pellentesque ligula a finibus.
+"""
 
 def get_article_data(article: str) -> tuple[str, str]:
     url = urlparse(article)
@@ -77,11 +88,18 @@ def set_window_size(template, driver):
     print(f"Setting window size to {width}x{height}  aspect-ratio: {width/height}")
     driver.set_window_size(width, height)
 
+def get_text(input_source):
+    if input_source == "input":
+        return input()
+    return LOREM
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('template_type', choices=["post","story"])
+    parser.add_argument('template_type', choices=["post", "story"])
+    parser.add_argument('input_source', choices=["input", "lorem"])
     args = parser.parse_args()
 
+    text = get_text(args.input_source)
     template = args.template_type
     print("template:",template)
     
@@ -95,18 +113,16 @@ def main():
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     driver = webdriver.Chrome(options=chrome_options)
-    # driver.set_window_size(2500, 3500)
     set_window_size(template, driver)
 
     driver.get(f"file://{os.path.join(os.getcwd(), get_template(template))}")
-
+    
     font_color = get_font_color_from_img_url(og_image)
+    
     # Instantiate stuff
+    driver.execute_script(f"setText(`{text}`)")
     driver.execute_script(f'setImages("{og_image}")')
-    #driver.execute_script(f'setFigCaption("{title.strip()}")')
     driver.execute_script(f'setFontColor("{font_color}")')
-
-    time.sleep(1)
 
     # Take screenshot
     container = driver.find_element(By.ID, 'story-container')
