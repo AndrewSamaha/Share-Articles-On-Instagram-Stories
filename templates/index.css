@@ -1,0 +1,91 @@
+body {
+    height: 100%;
+}
+
+#story-container {
+    --article-image: url("/home/andrew/Development/Share-Articles-On-Instagram-Stories/backgrounds/Firefly20240315182503.png");
+    height: 99vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10%;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+#story-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: crimson;
+    background-image: var(--article-image);
+    /* filter: blur(30px) brightness(.9); */
+    z-index: -2;
+    transform: scale(2);
+    background-position: center center;
+}
+
+#article {
+    width: 88%;
+}
+
+#article-image {
+    width: 100%;/ overflow: hidden;
+    vertical-align: middle;
+    filter: blur(20px) brightness(.9);
+    transform: scale(5);
+}
+
+#article figure {
+    box-shadow: 0 0 20px 4px rgba(58, 58, 61, 0.2);
+    border-radius: 2.85714rem;
+    margin: 0;
+    overflow: hidden;
+    border: solid 1px rgb(34, 34, 34);
+}
+
+#article figcaption {
+    padding: 40px 18px;
+    color: snow;
+    font-size: 55px;
+    font-family: 'Roboto';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-top: solid 1px rgb(34, 34, 34);
+    overflow: hidden;
+    position: relative;
+}
+
+#article figcaption::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: var(--article-image);
+    filter: blur(78px) brightness(1.2);
+    transform: scale(3);
+    z-index: -1;
+}
+
+text-container {
+    position: relative;
+}
+
+#text-overlay {
+    color: snow;
+    font-size: 5em;
+    position: absolute;
+    z-index: 1;
+    padding: 1em;
+    top: -10em;
+    text-align: center;
+    left: 0;
+}
